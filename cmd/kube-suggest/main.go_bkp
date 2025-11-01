@@ -5,14 +5,13 @@ import (
     "fmt"
     "os"
     "path/filepath"
-    "sort"
 
     "k8s.io/client-go/kubernetes"
     "k8s.io/client-go/tools/clientcmd"
     "k8s.io/client-go/util/homedir"
 
+    "github.com/yourusername/kube-suggest/internal/cost"
     "github.com/yourusername/kube-suggest/internal/types"
-    // Remove the unused cost import for now
 )
 
 var version = "v0.1.0"
@@ -37,7 +36,7 @@ func main() {
     fmt.Printf("🔍 Analyzing your cluster for cost savings...\n\n")
 
     suggestions := runAllChecks(clientset)
-    topSuggestions := getTopSuggestions(suggestions, 3)
+    topSuggestions := types.GetTopSuggestions(suggestions, 3)
     
     printReport(topSuggestions)
 }
@@ -57,39 +56,8 @@ func connectToCluster() (*kubernetes.Clientset, error) {
 }
 
 func runAllChecks(clientset *kubernetes.Clientset) []types.Suggestion {
-    // For now, return some dummy data to test
-    // We'll implement real checks in the next step
-    return []types.Suggestion{
-        {
-            Action:  "Scale deployment/analytics from 10 → 2 replicas",
-            Impact:  240.0,
-            Reason:  "High replica count for staging workload",
-            Command: "kubectl scale deployment analytics -n staging --replicas=2",
-        },
-        {
-            Action:  "Delete unused LoadBalancer service/old-api",
-            Impact:  180.0,
-            Reason:  "Service has no endpoints for 30+ days",
-            Command: "kubectl delete service old-api -n default",
-        },
-        {
-            Action:  "Reduce PVC size from 200GB → 50GB",
-            Impact:  120.0,
-            Reason:  "Current usage only 15GB",
-            Command: "# Manual: Backup and resize PVC",
-        },
-    }
-}
-
-// Add this missing function
-func getTopSuggestions(suggestions []types.Suggestion, limit int) []types.Suggestion {
-    if len(suggestions) <= limit {
-        return suggestions
-    }
-    
-    // Sort by impact (highest first)
-    sort.Sort(types.ByImpact(suggestions))
-    return suggestions[:limit]
+    // Will be implemented in next steps
+    return []types.Suggestion{}
 }
 
 func printReport(suggestions []types.Suggestion) {
@@ -117,4 +85,12 @@ func printReport(suggestions []types.Suggestion) {
 
     fmt.Printf("💡 Total potential savings: ~$%.0f/month\n", totalSavings)
     fmt.Printf("🎯 Start with the highest impact items first!\n")
+}
+
+// Helper function to get top N suggestions by impact
+func getTopSuggestions(suggestions []types.Suggestion, limit int) []types.Suggestion {
+    if len(suggestions) <= limit {
+        return suggestions
+    }
+    return suggestions[:limit]
 }
