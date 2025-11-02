@@ -48,19 +48,19 @@ Prerequisites
 
 · Kubernetes cluster access (kubeconfig)
 · kubectl configured and working
-
+```
 Installation
 
 Option 1 ( Not Ready ): Download Binary (Recommended)
 
 ```bash
 # Linux/macOS
-curl -L https://github.com/Javedboramani/kube-suggest/releases/latest/download/kube-suggest-linux-amd64 -o kube-suggest
+https://github.com/Javedboramani/kube-suggest/releases/latest/download/
 chmod +x kube-suggest
 sudo mv kube-suggest /usr/local/bin/
 
 # Windows ( Can be used)
-curl -L -o kube-suggest.exe https://github.com/Javedboramani/kube-suggest/releases/latest/download/kube-suggest-windows-amd64.exe
+https://github.com/Javedboramani/kube-suggest/releases/latest/download/
 ```
 
 Option 2: Go Install
