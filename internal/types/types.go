@@ -1,11 +1,11 @@
 package types
 
 type Suggestion struct {
-    Action  string  // Human-readable action
-    Impact  float64 // Estimated monthly savings in $
-    Reason  string  // Why this saves money  
-    Command string  // Exact command to execute
-    Confidence int  // 1-100 how confident we are in this suggestion
+    Action  string
+    Impact  float64
+    Reason  string
+    Command string
+    Confidence int
 }
 
 type ByImpact []Suggestion

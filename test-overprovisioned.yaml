@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: overprovisioned-app
+  namespace: staging
+spec:
+  replicas: 8  # Too many replicas for staging!
+  selector:
+    matchLabels:
+      app: overprovisioned-app
+  template:
+    metadata:
+      labels:
+        app: overprovisioned-app
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "256Mi"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dev-api
+  namespace: development
+spec:
+  replicas: 5  # Too many for dev!
+  selector:
+    matchLabels:
+      app: dev-api
+  template:
+    metadata:
+      labels:
+        app: dev-api
+    spec:
+      containers:
+      - name: api
+        image: nginx:alpine
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "128Mi"
